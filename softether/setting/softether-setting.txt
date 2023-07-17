@@ -1,0 +1,12 @@
+ServerPasswordSet password
+ListenerDisable 443
+ListenerDisable 992
+ListenerDisable 1194
+HubCreate vhub /PASSWORD:password
+Hub vhub
+UserCreate * /GROUP:none /REALNAME:none /NOTE:none
+RadiusServerSet 172.30.0.5 /SECRET:testing123 /RETRY_INTERVAL:1000
+IPsecEnable /L2TP:yes /L2TPRAW:no /ETHERIP:no /PSK:password /DEFAULTHUB:vhub
+OpenVpnEnable yes /PORTS:1194
+OpenVpnMakeConfig openvpn-config
+SecureNatEnable
