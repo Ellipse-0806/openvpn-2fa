@@ -2,7 +2,7 @@ version: "3"
 
 services:
   softether-server:
-    container_name: softether
+    container_name: ${VPN_CONTAINER_NAME}
     build:
       context: ./softether
       dockerfile: Dockerfile
@@ -11,13 +11,13 @@ services:
     volumes:
       - ~/containers/softether/setting:/root/mnt
     ports:
-      - 1194:1194/udp
+      - 1194:${VPN_PORT}/udp
       - 5555:5555/tcp
     tty: true
     network_mode: "host"
 
   radius-server:
-    container_name: radius
+    container_name: ${RADIUS_CONTAINER_NAME}
     build:
       context: ./radius
       dockerfile: Dockerfile
@@ -26,7 +26,7 @@ services:
     tty: true
     networks:
       app_net:
-        ipv4_address: 172.30.0.5
+        ipv4_address: ${RADIUS_ADDR}
 
 networks:
   app_net:
@@ -34,4 +34,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.30.0.0/24
+        - subnet: ${APP_NETWORK_ADDR}
