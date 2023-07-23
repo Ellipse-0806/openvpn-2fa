@@ -37,6 +37,9 @@ RUN cd $FILENAME; \
 COPY --chmod=700 setting/setup.sh /root/setting/setup.sh
 COPY --chmod=644 setting/softether-setting.ini /root/setting/softether-setting.ini
 
+EXPOSE 1194/udp
+EXPOSE 5555/tcp
+
 CMD ["/bin/sh", "/root/setting/setup.sh"]
 
 # ARG USERNAME=user

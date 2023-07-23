@@ -29,29 +29,21 @@ COPY --chmod=644 setting/radiusd /etc/pam.d/radiusd
 RUN ln -s /etc/freeradius/3.0/mods-available/pam /etc/freeradius/3.0/mods-enabled/pam
 
 ARG USERNAME=user
-ARG GROUPNAME=user
 ARG RADIUSGROUP=radius-enabled
 ARG UID=1000
-ARG GID=1000
 RUN set -eux; \
-        groupadd -g $GID $GROUPNAME; \
         groupadd $RADIUSGROUP; \
-        useradd -m -s /bin/bash -u $UID -g $GID $USERNAME; \
+        useradd -m -s /bin/bash -u $UID $USERNAME; \
         gpasswd -a $USERNAME $RADIUSGROUP
 
-CMD ["freeradius", "-f"]
-
-# RUN service freeradius start
-
+EXPOSE 1182/udp
+EXPOSE 1183/tcp
 
 # USER $USERNAME
 # WORKDIR /home/$USERNAME/
 
 # RUN set -eux; \
-#         google-authenticator -t -d -f -r 3 -R 30 -w 17 -q || echo "google-authenticator command failed"; \
-#         ls -la || echo "Failed to list directory"; \
-#         cat .google-authenticator || echo ".google-authenticator file does not exist"
+#         google-authenticator -t -d -f -r 3 -R 30 -w 17 -q
 
-# RUN set -eux; \
-#         google-authenticator -t -d -f -r 3 -R 30 -w 17 -q; \
-#         cat ~/.google-authenticator
+USER root
+CMD ["freeradius", "-f"]
