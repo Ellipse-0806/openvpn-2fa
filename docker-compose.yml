@@ -9,7 +9,7 @@ services:
     cap_add:
       - NET_ADMIN
     volumes:
-      - ~/containers/softether/setting:/root/mnt
+      - ./softether/auth:/root/mnt
     ports:
       - 1194:${VPN_PORT}/udp
       - 5555:5555/tcp
@@ -22,7 +22,7 @@ services:
       context: ./radius
       dockerfile: Dockerfile
     volumes:
-      - ~/containers/radius/auth:/user/mnt
+      - ./radius/auth:/root/mnt
     tty: true
     networks:
       app_net:
